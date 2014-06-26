@@ -29,11 +29,35 @@ class OrdersController implements ControllerProviderInterface
 
     public function index(Application $app)
     {
-        $user = $user = $app['security']->getToken()->getUser()->getUsername();
+        $user = $app['security']->getToken()->getUser()->getUsername();
 
         $ordersModel = new OrdersModel($app);
         $cart = $ordersModel->getCart($user);
         return $app['twig']->render('orders/cart.twig', array('products' => $cart));
 
+    }
+
+    public function add(Application $app, Request $request)
+    {
+        $idProduct = (int) $request->get('id', 0);
+        $login = $app['security']->getToken()->getUser()->getUsername();
+
+        $ordersModel = new OrdersModel($app);
+        $order = $ordersModel->getOrder($login);
+        $ordersModel->addToCart($idProduct, $order['id']);
+
+        return $app->redirect($app['url_generator']->generate('/cart/'), 301);
+    }
+
+    public function delete(Application $app, Request $request)
+    {
+        $idProduct = (int) $request->get('id', 0);
+        $login = $app['security']->getToken()->getUser()->getUsername();
+
+        $ordersModel = new OrdersModel($app);
+        $order = $ordersModel->getOrder($login);
+        $ordersModel->removeFromCart($idProduct, $order['id']);
+
+        return $app->redirect($app['url_generator']->generate('/cart/'), 301);
     }
 }
