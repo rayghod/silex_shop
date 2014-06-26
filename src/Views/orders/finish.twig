@@ -1,0 +1,11 @@
+{% extends 'base.twig' %}
+{% block title %}Confirm {% endblock %}
+
+{% block content %}
+    <h1>
+        Confirm your adress informations
+    </h1>
+    <form action="{{ url('/cart/finish') }}" method="post">
+        {{ form_widget(form) }}
+    </form>
+{% endblock %}

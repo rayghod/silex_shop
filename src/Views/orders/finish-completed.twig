@@ -1,0 +1,10 @@
+{% extends 'base.twig' %}
+{% block title %}Grats!{% endblock %}
+
+{% block content %}
+<h1>Congatulations!<h1>
+
+
+<p>Your order is going to be realized within next 5 days</p>
+<p>We cleared your cart, so you can add some new <a href="{{ url('/products/') }}" title="products">products.</a></p>
+{% endblock %}

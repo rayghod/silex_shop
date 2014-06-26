@@ -23,7 +23,9 @@ class OrdersController implements ControllerProviderInterface
         $ordersController = $app['controllers_factory'];
         $ordersController->match('/', array($this, 'index'))->bind('/cart/');
         $ordersController->match('/add/{id}', array($this, 'add'))->bind('/cart/add');
-        $ordersController->match('/delete/{id}', array($this, 'delete'))->bind('/products/delete');
+        $ordersController->match('/delete/{id}', array($this, 'delete'))->bind('/cart/delete');
+        $ordersController->match('/finish', array($this, 'finish'))->bind('/cart/finish');
+        $ordersController->match('/finish/completed', array($this, 'finish_completed'))->bind('/cart/finish/completed');
         return $ordersController;
     }
 
@@ -59,5 +61,50 @@ class OrdersController implements ControllerProviderInterface
         $ordersModel->removeFromCart($idProduct, $order['id']);
 
         return $app->redirect($app['url_generator']->generate('/cart/'), 301);
+    }
+
+    public function finish(Application $app, Request $request)
+    {
+        $login = $app['security']->getToken()->getUser()->getUsername();
+        $ordersModel = new OrdersModel($app);
+        $order = $ordersModel->getOrder($login);
+        
+        if (count($order)) {
+
+            $form = $app['form.factory']->createBuilder('form', $order)
+            ->add('street', 'text', array(
+                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
+            ))
+            ->add('house_number', 'text', array(
+                'constraints' => array(new Assert\NotBlank()))
+            )
+            ->add('postal_code', 'text', array(
+                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
+            ))
+            ->add('city', 'text', array(
+                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
+            ))
+            ->add('save', 'submit')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $login = $app['security']->getToken()->getUser()->getUsername();
+            $ordersModel->finishOrder($form->getData(), $login);
+            return $app->redirect($app['url_generator']->generate('/cart/finish/completed'), 301);
+        }
+
+        return $app['twig']->render('orders/finish.twig', array('form' => $form->createView(), 'order' => $order));
+
+        } else {
+            return $app->redirect($app['url_generator']->generate('/finish/'), 301);
+        }
+
+    }
+
+    public function finish_completed(Application $app, Request $request)
+    {
+        return $app['twig']->render('orders/finish-completed.twig');
     }
 }

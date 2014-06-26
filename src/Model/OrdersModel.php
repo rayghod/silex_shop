@@ -34,7 +34,7 @@ class OrdersModel
 	{
 		$sql = "SELECT * FROM users WHERE login =\"".$login."\";";
 		$user = $this->_db->fetchAssoc($sql);
-		$sql = "SELECT * FROM orders WHERE idUser  =\"".$user['id']."\";";
+		$sql = "SELECT * FROM orders WHERE idUser  =\"".$user['id']."\" AND closed = 0;";
 		return $this->_db->fetchAssoc($sql);
     }
 
@@ -49,4 +49,14 @@ class OrdersModel
    		$sql = 'DELETE FROM orders_products WHERE idProduct= ? AND idOrder = ?';
    		return $this->_db->executeQuery($sql, array($idProduct, $idOrder));
    	}
+
+    public function finishOrder($order, $login)
+    {
+        $sql = "SELECT * FROM users WHERE login =\"".$login."\";";
+        $user = $this->_db->fetchAssoc($sql);
+        $sql = "UPDATE orders SET closed = 1, street = ?, house_number = ?, postal_code = ?, city = ? WHERE idUser = ?";
+        $this->_db->executeQuery($sql, array($order['street'], $order['house_number'], $order['postal_code'], $order['city'], $user['id']));
+        $sql = "INSERT INTO `orders` (`id`, `idUser`,`street`,`house_number`,`postal_code`,`city`, `closed`) VALUES (NULL, ?, ?, ?, ?, ?, ?); ";
+        $this->_db->executeQuery($sql, array($user['id'], $order['street'], $order['house_number'], $order['postal_code'], $order['city'], 0));
+    }
 }

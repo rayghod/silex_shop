@@ -86,6 +86,7 @@ class ProductsController implements ControllerProviderInterface
             ->add('desc', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
             ))
+            ->add('save', 'submit')
             ->getForm();
 
         $form->handleRequest($request);

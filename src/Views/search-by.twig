@@ -9,9 +9,8 @@
         <table>
             <thead>
                 <tr>
-                    <th>Kategoria</th>
-                    <th>Producent</th>
                     <th>Nazwa</th>
+                    <th>Producent</th>
                     <th>Cena netto</th>
                     <th>Cena brutto</th>
                     <th>Opis</th>
@@ -21,12 +20,16 @@
             <tbody>
             {% for product in products %}
                 <tr>
-                    <td>{{ product.Kategoria|e }}</td>
-                    <td>{{ product.Producent|e }}</td>
                     <td>{{ product.name|e }}</td>
+                    <td>{{ product.Producent|e }}</td>
                     <td>{{ product.price_netto|e }}</td>
                     <td>{{ product.price_brutto|e }}</td>
                     <td>{{ product.desc|e }}</td>
+                    {% if is_granted('ROLE_USER') %}
+                      <td>
+                        <a href="{{ url('/cart/add', {'id': product.id}) }}" title="Edit product">Add to cart</a>
+                    </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>
