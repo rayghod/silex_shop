@@ -1,0 +1,59 @@
+{% extends 'base.twig' %}
+{% block title %}Products list{% endblock %}
+
+{% block content %}
+    <h1>
+        Products list
+    </h1>
+    <p>
+    {% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ url('/products/add') }}" title="Add product">
+            Add products
+        </a>
+    </p>
+    {% endif %}
+    {%  if products|length > 0 %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Kategoria</th>
+                    <th>Producent</th>
+                    <th>Nazwa</th>
+                    <th>Cena netto</th>
+                    <th>Cena brutto</th>
+                    <th>Opis</th>
+                    <th colspan="2">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.Kategoria|e }}</td>
+                    <td>{{ product.Producent|e }}</td>
+                    <td>{{ product.name|e }}</td>
+                    <td>{{ product.price_netto|e }}</td>
+                    <td>{{ product.price_brutto|e }}</td>
+                    <td>{{ product.desc|e }}</td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                      <td>
+                        <a href="{{ url('/products/edit', {'id': product.id}) }}" title="Edit product">Edit product</a>
+                    </td>
+                    <td>
+                        <a href="{{ url('/products/delete', {'id': product.id}) }}" title="Delete product">Delete product</a>
+                    </td>
+                    {% endif %}
+                    {% if is_granted('ROLE_USER') %}
+                      <td>
+                        <a href="" title="Edit product">Add to cart</a>
+                    </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>
+            Products not found.
+        </p>
+    {% endif %}
+{% endblock %}

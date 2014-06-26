@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}
+            <title>{% block title %}{% endblock %}</title>
+        {% endblock %}
+    </head>
+    <body>
+        <div id="content">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href="{{ path('/auth/logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ path('/auth/login') }}">Login</a>
+            {% endif %}
+            {% block content %}{% endblock %}
+        </div>
+    </body>
+</html>

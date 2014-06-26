@@ -1,0 +1,40 @@
+{% extends 'base.twig' %}
+{% block title %}orders list{% endblock %}
+
+{% block content %}
+    <h1>
+        Orders list
+    </h1>
+
+ {%  if orders|length > 0 %}
+        <table>
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>idUser</th>
+                    <th>Ulica</th>
+                    <th>Numer domu</th>
+                    <th>Kod pocztowy</th>
+                    <th>Miasto</th>
+                    <th colspan="2">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.idUser|e }}</td>
+                    <td>{{ order.street|e }}</td>
+                    <td>{{ order.house_number|e }}</td>
+                    <td>{{ order.postal_code|e }}</td>
+                    <td>{{ order.city|e }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+{% else %}
+        <p>
+            Orders not found.
+        </p>
+    {% endif %}
+{% endblock %}
