@@ -80,5 +80,9 @@ class UsersModel
         $user = $this->_db->fetchAssoc($sql2);
         $sql3 = 'INSERT INTO users_roles (`id`,`user_id`, `role_id` ) VALUES(NULL, ?, ?)';
         $this->_db->executeQuery($sql3, array($user['id'], 2));
+
+        $sql = "INSERT INTO orders (`id`, `idUser`,`street`,`house_number`,`postal_code`,`city`, `closed`) VALUES (NULL, ?, ?, ?, ?, ?, ?);";
+        $this->_db->executeQuery($sql, array($user['id'], $data['street'], $data['house_number'], $data['postal_code'], $data['city'], 0));
+
     }
 }

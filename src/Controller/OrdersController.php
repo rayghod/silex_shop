@@ -12,6 +12,12 @@ use Model\OrdersModel;
 
 class OrdersController implements ControllerProviderInterface
 {
+    public function getCurrentUserLogin(Application $app)
+    {
+        $user = $app['security']->getToken()->getUser()->getUsername();
+        return $user;
+    }
+
     public function connect(Application $app)
     {
         $ordersController = $app['controllers_factory'];
@@ -23,9 +29,11 @@ class OrdersController implements ControllerProviderInterface
 
     public function index(Application $app)
     {
-        $user = $app['security']->getToken()->getUser()->getUsername();
+        $user = $user = $app['security']->getToken()->getUser()->getUsername();
+
         $ordersModel = new OrdersModel($app);
-        $order = $ordersModel->getCart($user);
-        return $app['twig']->render('orders/orders.twig', array('orders' => $order));
+        $cart = $ordersModel->getCart($user);
+        return $app['twig']->render('orders/cart.twig', array('products' => $cart));
+
     }
 }

@@ -92,14 +92,29 @@ CREATE TABLE `orders` (
 `street` CHAR( 32 ) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL ,
 `house_number` CHAR( 32 ) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL ,
 `postal_code` CHAR( 32 ) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL ,
-`city` CHAR( 32 ) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
+`city` CHAR( 32 ) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+`closed` INT UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin; 
 
-INSERT INTO `orders` (`id`, `idUser`,`street`,`house_number`,`postal_code`,`city`) VALUES (1, 1, 'Litewska', '39', '30-014', 'Kraków');
+INSERT INTO `orders` (`id`, `idUser`,`street`,`house_number`,`postal_code`,`city`, `closed`) VALUES (1, 1, 'Litewska', '39', '30-014', 'Kraków', 0);
 
+INSERT INTO `orders` (`id`, `idUser`,`street`,`house_number`,`postal_code`,`city`, `closed`) VALUES (2, 2, 'Litewska', '39', '30-014', 'Kraków', 0);
 
 
 CREATE TABLE `orders_products` (
 `idOrder` INT UNSIGNED,
 `idProduct` INT UNSIGNED
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin; 
+
+INSERT INTO `orders_products` (`idOrder`, `idProduct`) VALUES (1,1);
+INSERT INTO `orders_products` (`idOrder`, `idProduct`) VALUES (1,2);
+INSERT INTO `orders_products` (`idOrder`, `idProduct`) VALUES (1,2);
+INSERT INTO `orders_products` (`idOrder`, `idProduct`) VALUES (1,3);
+INSERT INTO `orders_products` (`idOrder`, `idProduct`) VALUES (1,2);
+INSERT INTO `orders_products` (`idOrder`, `idProduct`) VALUES (1,4);
+INSERT INTO `orders_products` (`idOrder`, `idProduct`) VALUES (1,3);
+
+INSERT INTO `orders_products` (`idOrder`, `idProduct`) VALUES (2,3);
+INSERT INTO `orders_products` (`idOrder`, `idProduct`) VALUES (2,2);
+INSERT INTO `orders_products` (`idOrder`, `idProduct`) VALUES (2,4);
+INSERT INTO `orders_products` (`idOrder`, `idProduct`) VALUES (2,3);

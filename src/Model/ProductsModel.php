@@ -27,7 +27,7 @@ class ProductsModel
 
     public function getProducts()
     {
-        $sql = 'SElECT products.*, categories.name as Kategoria, producents.name as Producent FROM products JOIN categories ON products.idCategory = categories.id JOIN producents ON products.idProducent = producents.id;';
+        $sql = 'SELECT products.*, categories.name as Kategoria, producents.name as Producent FROM products JOIN categories ON products.idCategory = categories.id JOIN producents ON products.idProducent = producents.id;';
         return $this->_db->fetchAll($sql);
     }
 
