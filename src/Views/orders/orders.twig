@@ -3,7 +3,7 @@
 
 {% block content %}
     <h1>
-        Orders list
+        Finished orders
     </h1>
 
  {%  if orders|length > 0 %}
@@ -28,6 +28,9 @@
                     <td>{{ order.house_number|e }}</td>
                     <td>{{ order.postal_code|e }}</td>
                     <td>{{ order.city|e }}</td>
+                    <td>
+                        <a href="{{ url('/admin/', {'id': order.id}) }}" title="Details of order">Details</a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

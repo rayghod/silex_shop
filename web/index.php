@@ -30,7 +30,7 @@ $app->mount('/search/', new Controller\SearchController());
 $app->mount('/categories/', new Controller\CategoriesController());
 $app->mount('/register/', new Controller\RegistrationController());
 $app->mount('/cart/', new Controller\OrdersController());
-
+$app->mount('/admin/', new Controller\AdminController());
 
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(

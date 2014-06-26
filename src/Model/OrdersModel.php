@@ -38,6 +38,18 @@ class OrdersModel
 		return $this->_db->fetchAssoc($sql);
     }
 
+    public function getFinishedOrders()
+    {
+        $sql = "SELECT * FROM orders WHERE closed = 1";
+        return $this->_db->fetchAll($sql);
+    }
+
+    public function getProductsFromOrder($id)
+    {
+        $sql = "SELECT * FROM orders_products WHERE idOrder = ?";
+        return  $this->_db->fetchAll($sql, array($id));
+    }
+
     public function addToCart($idProduct, $idOrder)
     {
     	$sql = "INSERT INTO orders_products (idOrder, idProduct) VALUES(?,?)";
