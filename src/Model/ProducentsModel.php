@@ -5,7 +5,7 @@ namespace Model;
 use Doctrine\DBAL\DBALException;
 use Silex\Application;
 
-class CategoriesModel
+class ProducentsModel
 {
 	protected $_db;
 
@@ -14,27 +14,20 @@ class CategoriesModel
         $this->_db = $app['db'];
     }
 
-	public function getCategories()
-    {
-        $sql = 'SELECT * FROM categories;';
-        return $this->_db->fetchAll($sql);
-    }
-
     public function getProducents()
     {
         $sql = 'SELECT * FROM producents;';
         return $this->_db->fetchAll($sql);
     }
-
-    public function addCategory($data)
+	public function addProducent($data)
     {
-        $sql = 'INSERT INTO `categories` ( `id` ,`name`) VALUES (NULL, ?)';
+        $sql = 'INSERT INTO `producents` ( `id` ,`name`) VALUES (NULL, ?)';
         $this->_db->executeQuery($sql, array($data['name']));
     }
 
-    public function deleteCategory($id)
+    public function deleteProducent($id)
     {
-        $sql = 'DELETE FROM categories WHERE id= ?';
+        $sql = 'DELETE FROM producents WHERE id= ?';
         return $this->_db->executeQuery($sql, array((int) $id));
     }
 }

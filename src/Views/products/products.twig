@@ -5,9 +5,7 @@
 
     <p>
     {% if is_granted('ROLE_ADMIN') %}
-    <a href="{{ url('/products/add') }}" title="Add product">
-            Add products
-        </a>
+        <p><a class="btn btn-default" href="{{ url('/products/add') }}" role="button">Add new product »</a></p>
     </p>
     {% endif %}
     {%  if products|length > 0 %}

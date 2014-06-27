@@ -1,40 +1,41 @@
 {% extends 'base.twig' %}
-{% block title %}Products list{% endblock %}
+{% block title %}Cart{% endblock %}
 
 {% block content %}
     <h1>
-        Products list
+        List of products in cart
     </h1>
-    <p>
-        {%  if products|length > 0 %}
-        <table>
+    {%  if products|length > 0 %}
+        <div class="col-md-12">
+          <table class="table">
             <thead>
-                <tr>
-                    <th>Nazwa</th>
-                    <th>Cena netto</th>
-                    <th>Cena brutto</th>
-                    <th>Opis</th>
-                    <th colspan="2">&nbsp;</th>
-                </tr>
+              <tr>
+                <th>Nazwa</th>
+                <th>Cena netto</th>
+                <th>Cena brutto</th>
+                <th>Opis</th>
+              </tr>
             </thead>
             <tbody>
             {% for product in products %}
-                <tr>
-                    <td>{{ product.name|e }}</td>
-                    <td>{{ product.price_netto|e }}</td>
-                    <td>{{ product.price_brutto|e }}</td>
-                    <td>{{ product.desc|e }}</td>
-                    <td>
-                        <a href="{{ url('/cart/delete', {'id': product.id}) }}" title="Delete product">Delete product</a>
-                    </td>
-                </tr>
+              <tr>
+                <td>{{ product.name|e }}</td>
+                <td>{{ product.price_netto|e }} zł</td>
+                <td>{{ product.price_brutto|e }} zł</td>
+                <td>{{ product.desc|e }}</td>
+                <td>
+                    <a href="{{ url('/cart/delete', {'id': product.id}) }}" title="Delete product">Delete product</a>
+                </td>
+              </tr>
             {% endfor %}
             </tbody>
-        </table>
+          </table>
+        </div>
+        <p><a class="btn btn-default" href="{{ url('/cart/finish') }}" role="button">Finish your order »</a></p>      
     {% else %}
+    <br>
         <p>
             No products added to cart. Check our <a href="{{ url('/products/') }}" title="products">products.</a>
         </p>
     {% endif %}
-    <a href="{{ url('/cart/finish') }}" title="Delete product">Finish your order</a>
 {% endblock %}

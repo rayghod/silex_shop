@@ -29,6 +29,7 @@ $app->mount('/auth/', new Controller\AuthController());
 $app->mount('/categories/', new Controller\CategoriesController());
 $app->mount('/cart/', new Controller\OrdersController());
 $app->mount('/products/', new Controller\ProductsController());
+$app->mount('/producents/', new Controller\ProducentsController());
 $app->mount('/register/', new Controller\RegisterController());
 $app->mount('/search/', new Controller\SearchController());
 $app->mount('/user/', new Controller\UsersController());

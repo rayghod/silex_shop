@@ -64,7 +64,7 @@ CREATE TABLE `products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin; 
 
 INSERT INTO `products` ( `id`, `idCategory`, `idProducent`, `name`, `price_netto`, `price_brutto`, `desc` ) 
-VALUES (1, 1, 1, 'Psycho', 24, 34, 'aa'), (2, 1, 1, 'Psycho', 24, 34, 'aa'), (3, 1, 1, 'Psycho', 24, 34, 'aa'), (4, 1, 1, 'Psycho', 24, 34, 'aa'), (5, 2, 2, 'Nah', 24, 34, 'aa'), (6, 3, 3, 'Bah', 24, 34, 'aa');
+VALUES (1, 1, 1, 'Psycho1', 24, 34, 'aa'), (2, 1, 1, 'Psycho2', 24, 34, 'aa'), (3, 1, 1, 'Psycho3', 24, 34, 'aa'), (4, 1, 1, 'Psycho4', 24, 34, 'aa'), (5, 2, 2, 'Nah', 24, 34, 'aa'), (6, 3, 3, 'Bah', 24, 34, 'aa');
 
 DROP TABLE IF EXISTS `producents`;
 

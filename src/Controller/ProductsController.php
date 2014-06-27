@@ -2,11 +2,15 @@
 
 namespace Controller;
 
-use Model\ProductsModel;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
+
+use Model\ProductsModel;
+use Model\CategoriesModel;
+use Model\ProducentsModel;
+
 
 class ProductsController implements ControllerProviderInterface
 {
@@ -33,11 +37,34 @@ class ProductsController implements ControllerProviderInterface
        
         $data = array();
 
+        $categoriesModel = new CategoriesModel($app);
+        $test = $categoriesModel->getCategories();
+
+        $choiceCategory = array(0=>'Choose..');
+
+        for ( $i=0; $test[$i] != NULL; $i++){
+            array_push($choiceCategory, $test[$i]['name']);
+        }
+
+        $producentModel = new ProducentsModel($app);
+        $test = $producentModel->getProducents();
+
+        $choiceProducent = array(0=>'Choose..');
+
+        for ( $i=0; $test[$i] != NULL; $i++){
+            array_push($choiceProducent, $test[$i]['name']);
+        }
+
+        
         $form = $app['form.factory']->createBuilder('form', $data)
-            ->add('idCategory', 'number', array('constraints' => array(new Assert\NotBlank())))
-            ->add('idProducent', 'number', array('constraints' => array(new Assert\NotBlank())))
             ->add('name', 'text',array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))           
+            ))
+            ->add('idCategory', 'choice', array(
+                'choices' => $choiceCategory
+            ))
+            ->add('idProducent', 'choice', array(
+                'choices' => $choiceProducent
             ))
             ->add('price_netto', 'number', array('constraints' => array(new Assert\NotBlank())))
             ->add('price_brutto', 'number', array(
