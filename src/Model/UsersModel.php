@@ -85,4 +85,9 @@ class UsersModel
         $this->_db->executeQuery($sql, array($user['id'], $data['street'], $data['house_number'], $data['postal_code'], $data['city'], 0));
 
     }
+    public function updateUser($id, $data, $encodedPassword)
+    {
+        $sql = "UPDATE users SET login = ?, password = ?, firstname= ?, lastname = ?, email = ?, phone_number = ?, street = ?, house_number = ?, postal_code = ?, city = ? WHERE id = ?";
+        $this->_db->executeQuery($sql, array($data['login'], $encodedPassword, $data['firstname'], $data['lastname'], $data['email'], $data['phone_number'], $data['street'], $data['house_number'], $data['postal_code'], $data['city'], $id));
+    }
 }
