@@ -52,6 +52,18 @@ class ProductsModel
         return $this->_db->executeQuery($sql, array((int) $id));
     }
 
+    public function getProductsBy($id)
+    {
+        $sql = 'SElECT products.*, categories.name as Kategoria, producents.name as Producent FROM products JOIN categories ON products.idCategory = categories.id JOIN producents ON products.idProducent = producents.id WHERE products.idCategory = ?;';
+        return $this->_db->fetchAll($sql, array((int) $id));
+    }
+
+    public function getProductsFor($word)
+    {
+        $sql = "SElECT products.*, categories.name as Kategoria, producents.name as Producent FROM products JOIN categories ON products.idCategory = categories.id JOIN producents ON products.idProducent = producents.id WHERE products.name LIKE LOWER(\"%".$word."%\")";
+        return $this->_db->fetchAll($sql);
+    }
+
     
 
 }

@@ -29,6 +29,7 @@
             {% if is_granted('ROLE_ADMIN') %}
                 <li><a href="{{ url('/admin') }}">Finished orders</a></li>
                 <li><a href="{{ url('/categories/') }}">Categories</a></li>
+                <li><a href="{{ url('/producents/') }}">Producents</a></li>
             {% endif %}
             {% if is_granted('ROLE_USER') %}
                 <li><a href="{{ url('/user/') }}">Account</a></li>

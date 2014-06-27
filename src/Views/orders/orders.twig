@@ -6,10 +6,11 @@
         Finished orders
     </h1>
 
- {%  if orders|length > 0 %}
-        <table>
+    {%  if orders|length > 0 %}
+        <div class="col-md-12">
+          <table class="table">
             <thead>
-                <tr>
+              <tr>
                     <th>id</th>
                     <th>idUser</th>
                     <th>Ulica</th>
@@ -21,7 +22,7 @@
             </thead>
             <tbody>
             {% for order in orders %}
-                <tr>
+               <tr>
                     <td>{{ order.id }}</td>
                     <td>{{ order.idUser|e }}</td>
                     <td>{{ order.street|e }}</td>
@@ -34,10 +35,13 @@
                 </tr>
             {% endfor %}
             </tbody>
-        </table>
-{% else %}
+          </table>
+        </div>
+  
+    {% else %}
         <p>
             Orders not found.
         </p>
     {% endif %}
 {% endblock %}
+

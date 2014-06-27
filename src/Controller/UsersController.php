@@ -73,7 +73,6 @@ public function connect(Application $app)
             ->add('city', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
             ))
-            ->add('save', 'submit')
             ->getForm();
  
         $form->handleRequest($request);
@@ -104,6 +103,3 @@ public function connect(Application $app)
         return $app['twig']->render('users/add.twig', array('form' => $form->createView()));
     }
 }
-
-
-///DODAJ SPRAWDZANIE LOGINU PRZY UPDATE

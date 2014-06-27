@@ -12,8 +12,8 @@ use Model\OrdersModel;
 
 class AdminController implements ControllerProviderInterface
 {
-	
-	public function connect(Application $app)
+    
+    public function connect(Application $app)
     {
     	$adminController = $app['controllers_factory'];
         $adminController->match('/', array($this, 'index'))->bind('/admin');

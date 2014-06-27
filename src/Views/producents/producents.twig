@@ -1,0 +1,39 @@
+{% extends 'base.twig' %}
+{% block title %}Producents list{% endblock %}
+
+{% block content %}
+    <h1>
+        Producents list
+    </h1>
+        <p><a class="btn btn-default" href="{{ url('/producents/add') }}" role="button">Add producent »</a></p>
+
+
+    {%  if products|length > 0 %}
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nazwa</th>
+                    <th colspan="2">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.id|e }}</td>
+                    <td>{{ product.name|e }}</td>
+                    <td>
+                        <a href="{{ url('/producents/delete', {'id': product.id}) }}" title="Delete">Delete producent</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p>
+            Products not found.
+        </p>
+    {% endif %}
+{% endblock %}

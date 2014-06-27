@@ -7,7 +7,8 @@
     </h1>
     <p>
     {%  if products|length > 0 %}
-        <table>
+    <div class="col-md-12">
+        <table class="table">
             <thead>
                 <tr>
                     <th>Nazwa</th>
@@ -28,13 +29,15 @@
             {% endfor %}
             </tbody>
         </table>
+    </div>
     {% else %}
         <p>
             Products not found.
         </p>
     {% endif %}
      {%  if orders|length > 0 %}
-        <table>
+     <div class="col-md-12">
+        <table class="table">
             <thead>
                 <tr>
                     <th>Ulica</th>
@@ -55,5 +58,6 @@
             {% endfor %}
             </tbody>
         </table>
+    </div>
     {% endif %}
 {% endblock %}

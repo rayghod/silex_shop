@@ -17,6 +17,7 @@ class CategoriesController implements ControllerProviderInterface
         $categoriesController = $app['controllers_factory'];
         $categoriesController->get('/', array($this, 'index'))->bind('/categories/');
         $categoriesController->match('/add', array($this, 'add'))->bind('/categories/add');
+        $categoriesController->match('/edit/{id}', array($this, 'edit'))->bind('/categories/edit');
     	$categoriesController->match('/delete/{id}', array($this, 'delete'))->bind('/categories/delete');
         return $categoriesController;
     }
@@ -48,11 +49,34 @@ class CategoriesController implements ControllerProviderInterface
         return $app['twig']->render('categories/add.twig', array('form' => $form->createView()));
     }
 
+    public function edit(Application $app, Request $request)
+    {
+        $categoriesModel = new CategoriesModel($app);
+        $id = (int) $request->get('id', 0);
+        $category = $categoriesModel->getCategory($id);
+
+        $form = $app['form.factory']->createBuilder('form', $category)
+            ->add('name', 'text', array(
+                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
+            ))
+            ->getForm();
+    
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $categoriesModel = new CategoriesModel($app);
+            $categoriesModel->editCategory($form->getData(), $id);
+            return $app->redirect($app['url_generator']->generate('/categories/'), 301);
+        }
+
+        return $app['twig']->render('categories/edit.twig', array('form' => $form->createView(), 'category' => $category));
+    }
+
     public function delete(Application $app, Request $request)
     {
         $id = (int) $request->get('id', 0);
         $categoriesModel = new CategoriesModel($app);
-        $category = $categoriesModel->deleteCategory($id);
+        $categoriesModel->deleteCategory($id);
         return $app->redirect($app['url_generator']->generate("/categories/"), 301);     
     }
 

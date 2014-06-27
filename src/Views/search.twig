@@ -3,18 +3,17 @@
 
 {% block content %}
 
-Or type phrase you're loking for:
+<p>Or type phrase you're loking for:</p>
 
-    <form action="" method="post">
-        {{ form_widget(form) }}
-        <input type="submit" name="submit" />
-    </form>
+<form action="" method="post">
+    {{ form_widget(form) }}
+    <input class="btn btn-defaul" type="submit" name="submit">
+</form>
 
 
-Search by one of ours categories:
-{%  if categories|length > 0 %}
-	{% for category in categories %}	
- 		<p>	<a href="{{url('/search/by/', {'id': category.id})}}">{{ category.name|e }}</a></p>
- 	{% endfor %}
-{% endif %}
+<p style="margin-top:20px;">Search by one of ours categories:</p>
+<form action="" method="post">
+    {{ form_widget(form2) }}
+    <input class="btn btn-defaul" type="submit" name="submit">
+</form>
 {% endblock %}

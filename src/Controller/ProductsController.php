@@ -10,8 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Model\ProductsModel;
 use Model\CategoriesModel;
 use Model\ProducentsModel;
-
-
 class ProductsController implements ControllerProviderInterface
 {
 
@@ -92,14 +90,34 @@ class ProductsController implements ControllerProviderInterface
         $id = (int) $request->get('id', 0);
         $product = $productsModel->getProduct($id);
 
+        $data = array();
+
+        $categoriesModel = new CategoriesModel($app);
+        $test = $categoriesModel->getCategories();
+
+        $choiceCategory = array(0=>'Choose..');
+
+        for ( $i=0; $test[$i] != NULL; $i++){
+            array_push($choiceCategory, $test[$i]['name']);
+        }
+
+        $producentModel = new ProducentsModel($app);
+        $test = $producentModel->getProducents();
+
+        $choiceProducent = array(0=>'Choose..');
+
+        for ( $i=0; $test[$i] != NULL; $i++){
+            array_push($choiceProducent, $test[$i]['name']);
+        }
+
         if (count($product)) {
 
             $form = $app['form.factory']->createBuilder('form', $product)
-            ->add('idCategory', 'number', array(
-                'constraints' => array(new Assert\NotBlank())
+            ->add('idCategory', 'choice', array(
+                'choices' => $choiceCategory
             ))
-            ->add('idProducent', 'number', array(
-                'constraints' => array(new Assert\NotBlank())
+            ->add('idProducent', 'choice', array(
+                'choices' => $choiceProducent
             ))
             ->add('name', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
@@ -113,7 +131,6 @@ class ProductsController implements ControllerProviderInterface
             ->add('desc', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
             ))
-            ->add('save', 'submit')
             ->getForm();
 
         $form->handleRequest($request);

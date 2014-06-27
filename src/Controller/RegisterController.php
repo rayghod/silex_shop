@@ -56,7 +56,6 @@ class RegisterController implements ControllerProviderInterface
             ->add('city', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
             ))
-            ->add('save', 'submit')
             ->getForm();
 
         $form->handleRequest($request);

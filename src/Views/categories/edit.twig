@@ -3,9 +3,10 @@
 
 {% block content %}
     <h1>
-        Add product
+        Update category
     </h1>
-    <form action="{{ url('/categories/edit', {'id': categories.id}) }}" method="post">
+    <form action="" method="post">
         {{ form_widget(form) }}
+        <input class="btn btn-defaul" type="submit" name="Send">
     </form>
 {% endblock %}

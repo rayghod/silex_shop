@@ -7,7 +7,8 @@ use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Model\SearchModel;
+use Model\ProductsModel;
+use Model\CategoriesModel;
 
 class SearchController implements ControllerProviderInterface
 {
@@ -36,23 +37,45 @@ class SearchController implements ControllerProviderInterface
             return $app->redirect($app['url_generator']->generate('/search/for/', array('word' => $data['phrase'])));
         }
 
-        $searchModel = new SearchModel($app);
-        $categories = $searchModel->getCategories();
+
+        $data2 = array();
+
+        $categoriesModel = new CategoriesModel($app);
+        $test = $categoriesModel->getCategories();
+
+        $choiceCategory = array(0=>'Choose..');
+
+        for ( $i=0; $test[$i] != NULL; $i++){
+            array_push($choiceCategory, $test[$i]['name']);
+        }
+
+        $form2 = $app['form.factory']->createBuilder('form', $data2)
+            ->add('idCategory', 'choice', array(
+                'choices' => $choiceCategory
+            ))
+            ->getForm();
+
+        $form2->handleRequest($request);
+
+        if ($form2->isValid()) {
+            $data2 = $form2->getData();
+            return $app->redirect($app['url_generator']->generate('/search/by/', array('id' => $data2['idCategory'])), 301);
+        }
         
-        return $app['twig']->render('search.twig', array('categories' => $categories, 'form' => $form->createView()));
+        return $app['twig']->render('search.twig', array('categories' => $categories, 'form' => $form->createView(), 'form2' => $form2->createView()));
     }
 
     public function searchBy(Application $app, Request $request){
     	$id = (int) $request->get('id', 0);
-    	$searchModel = new SearchModel($app);
-    	$search= $searchModel->getProductsBy($id);
+    	$productsModel = new ProductsModel($app);
+    	$search= $productsModel->getProductsBy($id);
     	 return $app['twig']->render('search-by.twig', array('products' => $search));
     }
     
     public function searchFor(Application $app, Request $request){
         $word = $request->get('word');
-        $searchModel = new SearchModel($app);
-        $search= $searchModel->getProductsFor($word);
+        $productsModel = new ProductsModel($app);
+        $search= $productsModel->getProductsFor($word);
         return $app['twig']->render('search-for.twig', array('products' => $search));
     }
 

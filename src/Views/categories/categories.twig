@@ -6,34 +6,37 @@
         Categories list
     </h1>
     <p>
-    <a href="{{ url('/categories/add') }}" title="Add category">
-            Add products
-        </a>
-    </p>
+    <p><a class="btn btn-default" href="{{ url('/categories/add') }}" role="button">Add category »</a></p>
     {%  if products|length > 0 %}
-        <table>
+        <div class="col-md-12">
+          <table class="table">
             <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Nazwa</th>
-                    <th colspan="2">&nbsp;</th>
-                </tr>
+              <tr>
+                <th>Id</th>
+                <th>Nazwa</th>
+              </tr>
             </thead>
             <tbody>
             {% for product in products %}
-                <tr>
-                    <td>{{ product.id|e }}</td>
-                    <td>{{ product.name|e }}</td>
-                    <td>
-                        <a href="{{ url('/categories/delete', {'id': product.id}) }}" title="Delete">Delete product</a>
-                    </td>
-                </tr>
+              <tr>
+                <td>{{ product.id|e }}</td>
+                <td>{{ product.name|e }}</td>
+                <td>
+                    <a href="{{ url('/categories/edit', {'id': product.id}) }}" title="Delete product">Edit category</a>
+                </td>
+                <td>
+                    <a href="{{ url('/categories/delete', {'id': product.id}) }}" title="Delete product">Delete category</a>
+                </td>
+              </tr>
             {% endfor %}
             </tbody>
-        </table>
+          </table>
+        </div>
     {% else %}
         <p>
             Products not found.
         </p>
     {% endif %}
 {% endblock %}
+
+

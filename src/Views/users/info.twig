@@ -3,17 +3,17 @@
 {% block content %}
 
 {% if is_granted('ROLE_USER') %}
-	    <p>Login {{ user.login }}</p>
-	    <p>Firstname {{ user.firstname }}</p>
-	    <p>Lastname {{ user.lastname }}</p>
-	    <p>Phone_number {{ user.phone_number }}</p>
-	    <p>Email {{ user.email }}</p>
-	    <p>Street {{ user.street }}</p>
-	    <p>House number {{ user.house_number }}</p>
-	    <p>City {{ user.city }}</p>
-	    <p>Postal code {{ user.postal_code }}</p>
+	    <p><strong>Login:</strong> {{ user.login }}</p>
+	    <p><strong>Firstname:</strong> {{ user.firstname }}</p>
+	    <p><strong>Lastname:</strong> {{ user.lastname }}</p>
+	    <p><strong>Phone number:</strong> {{ user.phone_number }}</p>
+	    <p><strong>Email:</strong> {{ user.email }}</p>
+	    <p><strong>Street:</strong> {{ user.street }}</p>
+	    <p><strong>House number:</strong> {{ user.house_number }}</p>
+	    <p><strong>City:</strong> {{ user.city }}</p>
+	    <p><strong>Postal code:</strong> {{ user.postal_code }}</p>
 
-	    <a href="{{ url('/user/edit') }}">Edit your info</a>
+	    <p><a class="btn btn-default" href="{{ url('/user/edit') }}" role="button">Edit your info »</a></p>
 
 {% else %}
 	You have to be logged in to check your info.
