@@ -72,30 +72,30 @@ class OrdersController implements ControllerProviderInterface
         if (count($order)) {
 
             $form = $app['form.factory']->createBuilder('form', $order)
-            ->add('street', 'text', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-            ))
-            ->add('house_number', 'text', array(
-                'constraints' => array(new Assert\NotBlank()))
-            )
-            ->add('postal_code', 'text', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-            ))
-            ->add('city', 'text', array(
-                'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-            ))
-            ->add('save', 'submit')
-            ->getForm();
+                ->add('street', 'text', array(
+                    'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
+                ))
+                ->add('house_number', 'text', array(
+                    'constraints' => array(new Assert\NotBlank()))
+                )
+                ->add('postal_code', 'text', array(
+                    'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
+                ))
+                ->add('city', 'text', array(
+                    'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
+                ))
+                ->add('save', 'submit')
+                ->getForm();
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $login = $app['security']->getToken()->getUser()->getUsername();
-            $ordersModel->finishOrder($form->getData(), $login);
-            return $app->redirect($app['url_generator']->generate('/cart/finish/completed'), 301);
-        }
+            if ($form->isValid()) {
+                $login = $app['security']->getToken()->getUser()->getUsername();
+                $ordersModel->finishOrder($form->getData(), $login);
+                return $app->redirect($app['url_generator']->generate('/cart/finish/completed'), 301);
+            }
 
-        return $app['twig']->render('orders/finish.twig', array('form' => $form->createView(), 'order' => $order));
+            return $app['twig']->render('orders/finish.twig', array('form' => $form->createView(), 'order' => $order));
 
         } else {
             return $app->redirect($app['url_generator']->generate('/finish/'), 301);

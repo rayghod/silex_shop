@@ -15,7 +15,7 @@ class RegisterController implements ControllerProviderInterface
     {
         $registerController = $app['controllers_factory'];
         $registerController->match('/', array($this, 'register'))->bind('/register/');
-         $registerController->match('/success', array($this, 'success'))->bind('/register/success');
+        $registerController->match('/success', array($this, 'success'))->bind('/register/success');
         return $registerController;
     }
 

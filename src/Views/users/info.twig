@@ -1,0 +1,21 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+
+{% if is_granted('ROLE_USER') %}
+	    <p>Login {{ user.login }}</p>
+	    <p>Firstname {{ user.firstname }}</p>
+	    <p>Lastname {{ user.lastname }}</p>
+	    <p>Phone_number {{ user.phone_number }}</p>
+	    <p>Email {{ user.email }}</p>
+	    <p>Street {{ user.street }}</p>
+	    <p>House number {{ user.house_number }}</p>
+	    <p>City {{ user.city }}</p>
+	    <p>Postal code {{ user.postal_code }}</p>
+
+	    <a href="{{ url('/user/edit') }}">Edit your info</a>
+
+{% else %}
+	You have to be logged in to check your info.
+{% endif %}
+{% endblock %}
