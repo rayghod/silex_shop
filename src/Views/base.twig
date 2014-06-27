@@ -4,15 +4,53 @@
         {% block head %}
             <title>{% block title %}{% endblock %}</title>
         {% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="{{ app.request.basepath }}/fx/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <script src="http://code.jquery.com/jquery.js"></script>
+        <script src="{{ app.request.basepath }}/fx/js/bootstrap.min.js"></script>
+
     </head>
     <body>
-        <div id="content">
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <a href="{{ path('/auth/logout') }}">Logout</a>
-            {% else %}
-                <a href="{{ path('/auth/login') }}">Login</a>
-            {% endif %}
-            {% block content %}{% endblock %}
+     
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Silex shop</a>
         </div>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{ url('/products/') }}">Products</a></li>
+            <li><a href="{{ url('/search/') }}">Search</a></li>
+            {% if is_granted('ROLE_ADMIN') %}
+                <li><a href="{{ url('/admin') }}">Finished orders</a></li>
+                <li><a href="{{ url('/categories/') }}">Categories</a></li>
+            {% endif %}
+            {% if is_granted('ROLE_USER') %}
+                <li><a href="{{ url('/user/') }}">Account</a></li>
+                <li><a href="{{ url('/cart/') }}">Cart</a></li>
+            {% else %}
+                <li><a href="{{ url('/register/') }}">Register</a></li>
+            {% endif %}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li><a href="{{ path('/auth/logout') }}">Logout</a></li>
+            {% else %}
+                <li><a href="{{ path('/auth/login') }}">Login</a></li>
+            {% endif %}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    <div class="container" style="margin-top:100px;">
+        <div class="jumbotron">
+        <p>Welcom to the internet shop created with Silex. It consist functionalities of cart, orders, adding/editing/deleting products and some more stuff. Created for PHP course as project.</p>
+        </div>
+    {% block content %}{% endblock %}
     </body>
 </html>
+
+

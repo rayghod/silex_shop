@@ -32,6 +32,8 @@ $app->mount('/products/', new Controller\ProductsController());
 $app->mount('/register/', new Controller\RegisterController());
 $app->mount('/search/', new Controller\SearchController());
 $app->mount('/user/', new Controller\UsersController());
+$app->mount('/', new Controller\IndexController());
+
 
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(

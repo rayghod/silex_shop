@@ -2,9 +2,7 @@
 {% block title %}Products list{% endblock %}
 
 {% block content %}
-    <h1>
-        Products list
-    </h1>
+
     <p>
     {% if is_granted('ROLE_ADMIN') %}
     <a href="{{ url('/products/add') }}" title="Add product">
@@ -13,47 +11,36 @@
     </p>
     {% endif %}
     {%  if products|length > 0 %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Kategoria</th>
-                    <th>Producent</th>
-                    <th>Nazwa</th>
-                    <th>Cena netto</th>
-                    <th>Cena brutto</th>
-                    <th>Opis</th>
-                    <th colspan="2">&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for product in products %}
-                <tr>
-                    <td>{{ product.Kategoria|e }}</td>
-                    <td>{{ product.Producent|e }}</td>
-                    <td>{{ product.name|e }}</td>
-                    <td>{{ product.price_netto|e }}</td>
-                    <td>{{ product.price_brutto|e }}</td>
-                    <td>{{ product.desc|e }}</td>
-                    {% if is_granted('ROLE_ADMIN') %}
-                      <td>
-                        <a href="{{ url('/products/edit', {'id': product.id}) }}" title="Edit product">Edit product</a>
-                    </td>
-                    <td>
-                        <a href="{{ url('/products/delete', {'id': product.id}) }}" title="Delete product">Delete product</a>
-                    </td>
-                    {% endif %}
-                    {% if is_granted('ROLE_USER') %}
-                      <td>
-                        <a href="{{ url('/cart/add', {'id': product.id}) }}" title="Edit product">Add to cart</a>
-                    </td>
-                    {% endif %}
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+
     {% else %}
         <p>
             Products not found.
         </p>
     {% endif %}
+
+
+
+      <div class="row">
+{% for product in products %}
+        <div class="col-md-4">
+          <h2>{{ product.name|e }}</h2>
+          <p><strong>Category:</strong>{{ product.Kategoria|e }}</p>
+          <p><strong>Producent:</strong>{{ product.Producent|e }}</p>
+          <p><strong>Price netto:</strong>{{ product.price_netto|e }} zł</p>
+          <p><strong>Price brutto:</strong>{{ product.price_brutto|e }} zł</p>
+          <p><strong>Opis:</strong>{{ product.desc|e }}</p>
+          {% if is_granted('ROLE_ADMIN') %}
+             <p><a href="{{ url('/products/edit', {'id': product.id}) }}" title="Edit product">Edit product</a></p>
+             <p><a href="{{ url('/products/delete', {'id': product.id}) }}" title="Delete product">Delete product</a></p>
+          {% endif %}
+          {% if is_granted('ROLE_USER') %}
+             <p><a class="btn btn-default" href="{{ url('/cart/add', {'id': product.id}) }}" role="button">Add to cart »</a></p>
+          {% endif %}
+        </div>
+{% endfor %}
+      </div>
+    </div>
+
+
+    </div><p></p>
 {% endblock %}
