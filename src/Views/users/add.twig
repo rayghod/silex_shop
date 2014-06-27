@@ -1,0 +1,11 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+
+    {% for flashMessage in app.session.getFlashBag.get('message') %}
+            {{ flashMessage.content }}
+    {% endfor %}
+    <form action="" method="post" >
+        {{ form_widget(form) }}
+    </form>
+{% endblock %}

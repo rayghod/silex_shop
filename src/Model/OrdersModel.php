@@ -46,8 +46,13 @@ class OrdersModel
 
     public function getProductsFromOrder($id)
     {
-        $sql = "SELECT * FROM orders_products WHERE idOrder = ?";
-        return  $this->_db->fetchAll($sql, array($id));
+        $sql = "SELECT products.name as name, products.price_netto as `price_netto`, 
+        products.price_brutto as `price_brutto`, products.desc as `desc`,
+        products.id as id
+        FROM orders_products JOIN products 
+        ON orders_products.idProduct = products.id 
+        WHERE orders_products.idOrder =\"".$id."\" ;";
+        return  $this->_db->fetchAll($sql);
     }
 
     public function addToCart($idProduct, $idOrder)

@@ -28,7 +28,7 @@ $app->mount('/products/', new Controller\ProductsController());
 $app->mount('/auth/', new Controller\AuthController());
 $app->mount('/search/', new Controller\SearchController());
 $app->mount('/categories/', new Controller\CategoriesController());
-$app->mount('/register/', new Controller\RegistrationController());
+$app->mount('/register/', new Controller\UsersController());
 $app->mount('/cart/', new Controller\OrdersController());
 $app->mount('/admin/', new Controller\AdminController());
 
@@ -67,6 +67,7 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
         array('^/register.*$', 'IS_AUTHENTICATED_ANONYMOUSLY'),
         array('^/registrer/#*$', 'IS_AUTHENTICATED_ANONYMOUSLY'),
         array('^/products/add$', 'ROLE_ADMIN'),
+        array('^/admin$', 'ROLE_ADMIN'),
         array('^/products/edit.*$', 'ROLE_ADMIN'),
         array('^/products/delete$', 'ROLE_ADMIN'),
         array('^/categories.*$', 'ROLE_ADMIN'),

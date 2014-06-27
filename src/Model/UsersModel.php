@@ -72,10 +72,10 @@ class UsersModel
         return $roles;
     }
 
-    public function registerUser($data)
+    public function registerUser($data, $encodedPassword)
     {
         $sql = 'INSERT INTO users (`id`, `login`, `password`, `firstname`, `lastname`, `email`, `phone_number`, `street`, `house_number`, `postal_code`, `city` ) VALUES( NULL, ? , ? , ? , ? , ? , ? , ? , ? , ?, ?); ';
-        $this->_db->executeQuery($sql, array($data['login'], $data['password'], $data['firstname'], $data['lastname'], $data['email'], $data['phone_number'], $data['street'], $data['house_number'], $data['postal_code'], $data['city']));
+        $this->_db->executeQuery($sql, array($data['login'], $encodedPassword, $data['firstname'], $data['lastname'], $data['email'], $data['phone_number'], $data['street'], $data['house_number'], $data['postal_code'], $data['city']));
         $sql2 = "SELECT * FROM users WHERE login =\"".$data['login']."\";";
         $user = $this->_db->fetchAssoc($sql2);
         $sql3 = 'INSERT INTO users_roles (`id`,`user_id`, `role_id` ) VALUES(NULL, ?, ?)';
