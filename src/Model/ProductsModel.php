@@ -52,4 +52,6 @@ class ProductsModel
         return $this->_db->executeQuery($sql, array((int) $id));
     }
 
+    
+
 }

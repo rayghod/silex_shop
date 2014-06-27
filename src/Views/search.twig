@@ -2,7 +2,16 @@
 {% block title %}Search by categories{% endblock %}
 
 {% block content %}
-Wyszukaj po jednej z nasszych kategorii:
+
+Or type phrase you're loking for:
+
+    <form action="" method="post">
+        {{ form_widget(form) }}
+        <input type="submit" name="submit" />
+    </form>
+
+
+Search by one of ours categories:
 {%  if categories|length > 0 %}
 	{% for category in categories %}	
  		<p>	<a href="{{url('/search/by/', {'id': category.id})}}">{{ category.name|e }}</a></p>

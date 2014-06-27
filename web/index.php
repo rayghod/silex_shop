@@ -24,13 +24,14 @@ $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\SessionServiceProvider());
 
 
-$app->mount('/products/', new Controller\ProductsController());
-$app->mount('/auth/', new Controller\AuthController());
-$app->mount('/search/', new Controller\SearchController());
-$app->mount('/categories/', new Controller\CategoriesController());
-$app->mount('/register/', new Controller\UsersController());
-$app->mount('/cart/', new Controller\OrdersController());
 $app->mount('/admin/', new Controller\AdminController());
+$app->mount('/auth/', new Controller\AuthController());
+$app->mount('/categories/', new Controller\CategoriesController());
+$app->mount('/cart/', new Controller\OrdersController());
+$app->mount('/products/', new Controller\ProductsController());
+$app->mount('/register/', new Controller\RegisterController());
+$app->mount('/search/', new Controller\SearchController());
+
 
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(

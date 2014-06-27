@@ -15,7 +15,6 @@ class ProductsController implements ControllerProviderInterface
     {
         $productsController = $app['controllers_factory'];
         $productsController->get('/', array($this, 'index'))->bind('/products/');
-        $productsController->get('/{page}', array($this, 'index'))->value('page', 1)->bind('/products/');
         $productsController->match('/add', array($this, 'add'))->bind('/products/add');
         $productsController->match('/edit/{id}', array($this, 'edit'))->bind('/products/edit');
     	$productsController->match('/delete/{id}', array($this, 'delete'))->bind('/products/delete');
