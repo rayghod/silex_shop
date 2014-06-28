@@ -58,8 +58,8 @@ CREATE TABLE `products` (
 `idCategory` INT UNSIGNED NOT NULL,
 `idProducent` INT UNSIGNED,
 `name` CHAR( 32 ) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-`price_netto` INT UNSIGNED NOT NULL,
-`price_brutto` INT UNSIGNED NOT NULL,
+`price_netto` FLOAT NOT NULL,
+`price_brutto` FLOAT UNSIGNED NOT NULL,
 `desc` TEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin; 
 

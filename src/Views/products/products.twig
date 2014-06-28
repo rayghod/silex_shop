@@ -10,14 +10,6 @@
     {% endif %}
     {%  if products|length > 0 %}
 
-    {% else %}
-        <p>
-            Products not found.
-        </p>
-    {% endif %}
-
-
-
       <div class="row">
 {% for product in products %}
         <div class="col-md-4">
@@ -38,6 +30,11 @@
 {% endfor %}
       </div>
     </div>
+    {% else %}
+        <p>
+            Products not found.
+        </p>
+    {% endif %}
 
 
     </div><p></p>

@@ -9,5 +9,6 @@
     {{ error }}
     <form action="{{ path('products_login_check') }}" method="post">
         {{ form_widget(form) }}
+        <input class="btn btn-defaul" type="submit" name="Send">
     </form>
 {% endblock %}

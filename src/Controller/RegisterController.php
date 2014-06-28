@@ -23,68 +23,107 @@ class RegisterController implements ControllerProviderInterface
     {
         $data = array();
         $form = $app['form.factory']->createBuilder('form', $data)
-            ->add('login', 'text', array(
+            ->add(
+                'login', 'text', array(
                 'constraints' => array(new Assert\NotBlank())
-            ))
-            ->add('password', 'password', array(
+                )
+            )
+            ->add(
+                'password', 'password', array(
                 'constraints' => array(new Assert\NotBlank())
-            ))
-            ->add('confirm_password', 'password', array(
+                )
+            )
+            ->add(
+                'confirm_password', 'password', array(
                 'constraints' => array(new Assert\NotBlank())
-            ))
-            ->add('firstname', 'text', array(
+                )
+            )
+            ->add(
+                'firstname', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-            ))
-            ->add('lastname', 'text', array(
+                )
+            )
+            ->add(
+                'lastname', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-            ))
-            ->add('phone_number', 'text', array(
+                )
+            )
+            ->add(
+                'phone_number', 'text', array(
                 'constraints' => array(new Assert\NotBlank())
-            ))
-            ->add('street', 'text', array(
+                )
+            )
+            ->add(
+                'street', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-            ))
-            ->add('email', 'text', array(
+                )
+            )
+            ->add(
+                'email', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Email())
-            ))
-            ->add('house_number', 'text', array(
+                )
+            )
+            ->add(
+                'house_number', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-            ))
-            ->add('postal_code', 'text', array(
+                )
+            )
+            ->add(
+                'postal_code', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-            ))
-            ->add('city', 'text', array(
+                )
+            )
+            ->add(
+                'city', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-            ))
+                )
+            )
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $data = $form->getData();
+
+            $data['login'] = $app->escape($data['login']);
+            $data['password'] = $app->escape($data['password']);
+            $data['confirm_password'] = $app->escape($data['confirm_password']);
+            $data['firstname'] = $app->escape($data['firstname']);
+            $data['lastname'] = $app->escape($data['lastname']);
+            $data['phone_number'] = $app->escape($data['phone_number']);
+            $data['street'] = $app->escape($data['street']);
+            $data['email'] = $app->escape($data['email']);
+            $data['house_number'] = $app->escape($data['house_number']);
+            $data['postal_code'] = $app->escape($data['postal_code']);
+            $data['city'] = $app->escape($data['name']);
+
             if ($data['password'] === $data['confirm_password']) {
               
                 $encodedPassword = $app['security.encoder.digest']->encodePassword($data['password'], '');
                 
                 $usersModel = new UsersModel($app);
                 $checkLogin = $usersModel->getUserByLogin($data['login']);
-                if(!$checkLogin){
+                if (!$checkLogin) {
                     $usersModel->registerUser($form->getData(), $encodedPassword);
                     return $app->redirect($app['url_generator']->generate('/register/success'), 301);
-                }
-                else{
-                    $app['session']->getFlashBag()->add('message', array('type' => 'warning', 'content' => 'Login is already being used'));
+                } else {
+                    $app['session']->getFlashBag()->add(
+                        'message', array(
+                        'type' => 'warning', 'content' => 'Login is already being used')
+                    );
                     return $app['twig']->render('users/add.twig', array('form' => $form->createView()));
                 }
-            }
-            else{
-                $app['session']->getFlashBag()->add('message', array('type' => 'warning', 'content' => 'Passwords are not the same'));
+            } else {
+                $app['session']->getFlashBag()->add(
+                    'message', array(
+                    'type' => 'warning', 'content' => 'Passwords are not the same')
+                );
                 return $app['twig']->render('users/add.twig', array('form' => $form->createView()));
             }
         }
 
         return $app['twig']->render('users/add.twig', array('form' => $form->createView()));
-	}
+    }
 
     public function success(Application $app)
     {

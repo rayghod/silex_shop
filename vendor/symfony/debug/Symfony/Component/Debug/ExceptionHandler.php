@@ -194,10 +194,10 @@ class ExceptionHandler
     {
         switch ($exception->getStatusCode()) {
             case 404:
-                $title = 'Sorry, the page you are looking for could not be found.';
+                $title = '404 error. I am deeply sorry, but there is no such page on my site. <a href="/projekt_php/web/index.php">Go back</a> to main page.';
                 break;
             default:
-                $title = 'Whoops, looks like something went wrong.';
+                $title = 'Whoops, looks like someone is doing something inappropriate. <a href="/projekt_php/web/index.php">Go back</a> to main page.';
         }
 
         $content = '';

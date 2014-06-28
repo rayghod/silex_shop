@@ -33,16 +33,20 @@ class CategoriesController implements ControllerProviderInterface
    	{
    		$data = array();
    		$form = $app['form.factory']->createBuilder('form', $data)
-            ->add('name', 'text', array(
+            ->add(
+                'name', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-            ))
+                )
+            )
             ->getForm();
    	
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $data = $form->getData();
+            $data['name'] = $app->escape($data['name']);
             $categoriesModel = new CategoriesModel($app);
-            $categoriesModel->addCategory($form->getData());
+            $categoriesModel->addCategory($data);
             return $app->redirect($app['url_generator']->generate('/categories/'), 301);
         }
 
@@ -56,20 +60,27 @@ class CategoriesController implements ControllerProviderInterface
         $category = $categoriesModel->getCategory($id);
 
         $form = $app['form.factory']->createBuilder('form', $category)
-            ->add('name', 'text', array(
+            ->add(
+                'name', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-            ))
+                )
+            )
             ->getForm();
     
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $data = $form->getData();
+            $data['name'] = $app->escape($data['name']);
             $categoriesModel = new CategoriesModel($app);
-            $categoriesModel->editCategory($form->getData(), $id);
+            $categoriesModel->editCategory($data, $id);
             return $app->redirect($app['url_generator']->generate('/categories/'), 301);
         }
 
-        return $app['twig']->render('categories/edit.twig', array('form' => $form->createView(), 'category' => $category));
+        return $app['twig']->render(
+            'categories/edit.twig', array(
+            'form' => $form->createView(), 'category' => $category)
+        );
     }
 
     public function delete(Application $app, Request $request)

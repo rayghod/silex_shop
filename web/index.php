@@ -11,14 +11,18 @@ $app = new Silex\Application();
 $app['debug'] = true;
 
 
-$app->register(new Silex\Provider\TwigServiceProvider(), array(
+$app->register(
+    new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/../src/Views',
-));
+    )
+);
 $app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
-$app->register(new Silex\Provider\TranslationServiceProvider(), array(
+$app->register(
+    new Silex\Provider\TranslationServiceProvider(), array(
     'translator.domains' => array(),
-));
+    )
+);
 
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\SessionServiceProvider());
@@ -36,7 +40,8 @@ $app->mount('/user/', new Controller\UsersController());
 $app->mount('/', new Controller\IndexController());
 
 
-$app->register(new Silex\Provider\DoctrineServiceProvider(), array(
+$app->register(
+    new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(
         'driver'    => 'pdo_mysql',
         'host'      => '127.0.0.1',
@@ -45,9 +50,11 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
         'password'  => 'root',
         'charset'   => 'utf8',
     ),
-));
+    )
+);
 
-$app->register(new Silex\Provider\SecurityServiceProvider(), array(
+$app->register(
+    new Silex\Provider\SecurityServiceProvider(), array(
     'security.firewalls' => array(
         'admin' => array(
             'pattern' => '^.*$',
@@ -61,9 +68,11 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
             'logout'  => true,
             'anonymous' => true,
             'logout' => array('logout_path' => '/auth/logout'),
-            'users' => $app->share(function() use ($app) {
+            'users' => $app->share(
+                function() use ($app) {
                 return new User\UserProvider($app);
-            }),
+                }
+            ),
         ),
     ),
     'security.access_rules' => array(
@@ -85,7 +94,8 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
     'security.role_hierarchy' => array(
         'ROLE_ADMIN' => array('ROLE_USER'),
     ),
-));
+    )
+);
 
 
 $app->run();

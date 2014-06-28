@@ -72,25 +72,37 @@ class OrdersController implements ControllerProviderInterface
         if (count($order)) {
 
             $form = $app['form.factory']->createBuilder('form', $order)
-                ->add('street', 'text', array(
+                ->add(
+                    'street', 'text', array(
                     'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-                ))
-                ->add('house_number', 'text', array(
+                    )
+                )
+                ->add(
+                    'house_number', 'text', array(
                     'constraints' => array(new Assert\NotBlank()))
                 )
-                ->add('postal_code', 'text', array(
+                ->add(
+                    'postal_code', 'text', array(
                     'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-                ))
-                ->add('city', 'text', array(
+                    )
+                )
+                ->add(
+                    'city', 'text', array(
                     'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-                ))
+                    )
+                )
                 ->getForm();
 
             $form->handleRequest($request);
 
             if ($form->isValid()) {
+                $data = $form->getData();
+                $data['street'] = $app->escape($data['street']);
+                $data['house_number'] = $app->escape($data['house_number']);
+                $data['postal_code'] = $app->escape($data['postal_code']);
+                $data['city'] = $app->escape($data['city']);
                 $login = $app['security']->getToken()->getUser()->getUsername();
-                $ordersModel->finishOrder($form->getData(), $login);
+                $ordersModel->finishOrder($data, $login);
                 return $app->redirect($app['url_generator']->generate('/cart/finish/completed'), 301);
             }
 

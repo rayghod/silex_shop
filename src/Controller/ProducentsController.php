@@ -11,7 +11,7 @@ use Model\ProducentsModel;
 
 class ProducentsController implements ControllerProviderInterface
 {
-	public function connect(Application $app)
+    public function connect(Application $app)
     {
         $producentssController = $app['controllers_factory'];
         $producentssController->get('/', array($this, 'index'))->bind('/producents/');
@@ -32,16 +32,20 @@ class ProducentsController implements ControllerProviderInterface
    	{
    		$data = array();
    		$form = $app['form.factory']->createBuilder('form', $data)
-            ->add('name', 'text', array(
+            ->add(
+                'name', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-            ))
+                )
+            )
             ->getForm();
    	
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $data = $form->getData();
+            $data['name'] = $app->escape($data['name']);
             $producentsModel = new producentsModel($app);
-            $producentsModel->addProducent($form->getData());
+            $producentsModel->addProducent($data);
             return $app->redirect($app['url_generator']->generate('/producents/'), 301);
         }
 
@@ -55,19 +59,25 @@ class ProducentsController implements ControllerProviderInterface
         $producent = $producentsModel->getProducent($id);
 
         $form = $app['form.factory']->createBuilder('form', $producent)
-            ->add('name', 'text', array(
+            ->add(
+                'name', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-            ))
+                )
+            )
             ->getForm();
     
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $producentsModel->editProducent($form->getData(), $id);
+            $data = $form->getData();
+            $data['name'] = $app->escape($data['name']);
+            $producentsModel->editProducent($data, $id);
             return $app->redirect($app['url_generator']->generate('/producents/'), 301);
         }
 
-        return $app['twig']->render('producents/edit.twig', array('form' => $form->createView(), 'producent' => $producent));
+        return $app['twig']->render(
+            'producents/edit.twig', array('form' => $form->createView(), 'producent' => $producent)
+        );
     }
 
 

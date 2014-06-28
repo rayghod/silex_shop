@@ -40,7 +40,7 @@ class ProductsController implements ControllerProviderInterface
 
         $choiceCategory = array(0=>'Choose..');
 
-        for ( $i=0; $test[$i] != NULL; $i++){
+        for ( $i=0; $test[$i] != NULL; $i++) {
             array_push($choiceCategory, $test[$i]['name']);
         }
 
@@ -49,35 +49,50 @@ class ProductsController implements ControllerProviderInterface
 
         $choiceProducent = array(0=>'Choose..');
 
-        for ( $i=0; $test[$i] != NULL; $i++){
+        for ( $i=0; $test[$i] != NULL; $i++) {
             array_push($choiceProducent, $test[$i]['name']);
         }
 
         
         $form = $app['form.factory']->createBuilder('form', $data)
-            ->add('name', 'text',array(
+            ->add(
+                'name', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))           
-            ))
-            ->add('idCategory', 'choice', array(
+                )
+            )
+            ->add(
+                'idCategory', 'choice', array(
                 'choices' => $choiceCategory
-            ))
-            ->add('idProducent', 'choice', array(
+                )
+            )
+            ->add(
+                'idProducent', 'choice', array(
                 'choices' => $choiceProducent
-            ))
-            ->add('price_netto', 'number', array('constraints' => array(new Assert\NotBlank())))
-            ->add('price_brutto', 'number', array(
+                )
+            )
+            ->add(
+                'price_brutto', 'number', array(
                 'constraints' => array(new Assert\NotBlank())
-            ))
-            ->add('desc', 'text', array(
+                )
+            )
+            ->add(
+                'desc', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-            ))
+                )
+            )
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $data = $form->getData();
+            $data['name'] = $app->escape($data['name']);
+            $data['idCategory'] = $app->escape($data['idCategory']);
+            $data['idProducent'] = $app->escape($data['idProducent']);
+            $data['price_brutto'] = $app->escape($data['price_brutto']);
+            $data['desc'] = $app->escape($data['desc']);
             $productsModel = new ProductsModel($app);
-            $productsModel->addProduct($form->getData());
+            $productsModel->addProduct($form->getData($data));
             return $app->redirect($app['url_generator']->generate('/products/'), 301);
         }
 
@@ -97,7 +112,7 @@ class ProductsController implements ControllerProviderInterface
 
         $choiceCategory = array(0=>'Choose..');
 
-        for ( $i=0; $test[$i] != NULL; $i++){
+        for ( $i=0; $test[$i] != NULL; $i++) {
             array_push($choiceCategory, $test[$i]['name']);
         }
 
@@ -106,38 +121,51 @@ class ProductsController implements ControllerProviderInterface
 
         $choiceProducent = array(0=>'Choose..');
 
-        for ( $i=0; $test[$i] != NULL; $i++){
+        for ( $i=0; $test[$i] != NULL; $i++) {
             array_push($choiceProducent, $test[$i]['name']);
         }
 
         if (count($product)) {
 
             $form = $app['form.factory']->createBuilder('form', $product)
-            ->add('idCategory', 'choice', array(
+            ->add(
+                'idCategory', 'choice', array(
                 'choices' => $choiceCategory
-            ))
-            ->add('idProducent', 'choice', array(
+                )
+            )
+            ->add(
+                'idProducent', 'choice', array(
                 'choices' => $choiceProducent
-            ))
-            ->add('name', 'text', array(
+                )
+            )
+            ->add(
+                'name', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-            ))
-            ->add('price_netto', 'number', array(
+                )
+            )
+            ->add(
+                'price_brutto', 'number', array(
                 'constraints' => array(new Assert\NotBlank())
-            ))
-            ->add('price_brutto', 'number', array(
-                'constraints' => array(new Assert\NotBlank())
-            ))
-            ->add('desc', 'text', array(
+                )
+            )
+            ->add(
+                'desc', 'text', array(
                 'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 3)))
-            ))
+                )
+            )
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $data = $form->getData();
+            $data['name'] = $app->escape($data['name']);
+            $data['idCategory'] = $app->escape($data['idCategory']);
+            $data['idProducent'] = $app->escape($data['idProducent']);
+            $data['price_brutto'] = $app->escape($data['price_brutto']);
+            $data['desc'] = $app->escape($data['desc']);
             $productsModel = new ProductsModel($app);
-            $productsModel->saveProduct($form->getData());
+            $productsModel->saveProduct($data);
             return $app->redirect($app['url_generator']->generate('/products/'), 301);
         }
 

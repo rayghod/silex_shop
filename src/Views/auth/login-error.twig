@@ -7,5 +7,6 @@
     Błędne hasło lub login, spróbuj ponownie
     <form action="{{ url('/auth/login') }}" method="post">
         {{ form_widget(form) }}
+        <input class="btn btn-defaul" type="submit" name="Send">
     </form>
 {% endblock %}
